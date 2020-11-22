@@ -1,3 +1,59 @@
 #!/usr/bin/env python
 
-raise NotImplementedError
+from blessed import Terminal
+import requests
+
+URI = "http://localhost:5555"
+
+term = Terminal()
+selected_option = 0
+
+def show_menu():
+    global selected_option
+    selected_option = 0
+    options = ['List items', 'Sell item', 'Panel', 'Quit']
+    while(True):
+        print(term.home + term.clear + term.move_y(term.height // 2))
+        print(term.move_up(2))
+        for i,opt in enumerate(options):
+            print(term.move_right(10), end="")
+            if i == selected_option:
+                print(term.black_on_darkkhaki(opt))
+            else:
+                print(term.white(opt))
+
+        with term.cbreak(), term.hidden_cursor():
+            inp = term.inkey()
+
+        if repr(inp) == 'KEY_DOWN':
+            selected_option += 1
+            if selected_option > len(options)-1: selected_option = 0
+        elif repr(inp) == 'KEY_UP':
+            selected_option -= 1
+            if selected_option < 0: selected_option = len(options)-1
+        elif repr(inp) == "KEY_ENTER":
+            opt = options[selected_option]
+            if opt == 'Quit': exit(0)
+            elif opt == 'List items':
+                list_items()
+            elif opt == 'Sell item':
+                sell()
+            elif opt == 'Panel':
+                panel()
+
+def list_items():
+    got = requests.get(URI+"/list").json()
+    print(term.home + term.clear)
+    for item in got:
+        print(got[item]['name'])
+
+    with term.cbreak(), term.hidden_cursor():
+            inp = term.inkey()
+
+def sell():
+    raise NotImplemented
+
+def panel():
+    raise NotImplemented
+
+show_menu()

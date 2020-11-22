@@ -7,7 +7,7 @@ setup(
    author='Lucas Hehl',
    author_email='lucas@hehl.com.br',
    packages=['StocksBar'],
-   install_requires=['flask'],
+   install_requires=['flask', 'blessed', 'requests'],
    scripts=[
         'scripts/server',
         'scripts/client',
