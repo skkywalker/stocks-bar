@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+
+from blessed import Terminal
+import requests
+
+URI = "http://localhost:5555"
+
+term = Terminal()
+
+def print_in_pos(row, col, prod):
+    print(term.move_xy(20*col, 2*row) + prod["name"])
+    print(term.move_xy(20*col+15, 2*row) + str(prod["price"]))
+
+def panel():
+    height = term.height
+    width = term.width
+    cols = width // 20
+    rows = height // 2
+    got = requests.get(URI+"/list").json()
+    if (len(got) > rows*cols):
+        return NotImplemented
+    while True:
+        print(term.home + term.clear)
+        got = requests.get(URI+"/list").json()
+        print(term.home + term.clear)
+
+        row_ctl = 0
+        col_ctl = 0
+        for item in got:
+            print_in_pos(row_ctl, col_ctl, got[item])
+            row_ctl += 1
+            if(row_ctl > rows):
+                row_ctl = 0
+                col_ctl += 1
+
+        with term.cbreak(), term.hidden_cursor():
+            inp = term.inkey(timeout=3)
+        if(inp):
+            break
+
+if __name__ == "__main__":
+    panel()

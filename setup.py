@@ -10,6 +10,6 @@ setup(
    install_requires=['flask', 'blessed', 'requests'],
    scripts=[
         'scripts/server',
-        'scripts/client',
+        'scripts/panel',
     ]
 )
