@@ -4,6 +4,7 @@ class product:
         self.min_price = min_price
         self.max_price = max_price
         self.price = price
+        self.price_hist = [price]
         self.X = self.inverse_price_equation()
         self.ratio = ratio
 
@@ -47,3 +48,4 @@ class product:
     def update_price(self):
         normalized_price = self.price_equation()
         self.price = self.denormalize_price(normalized_price)
+        self.price_hist.append(self.price)
