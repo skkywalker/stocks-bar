@@ -14,7 +14,7 @@ class product:
         return (price - self.min_price)/(self.max_price - self.min_price)
 
     def denormalize_price(self, price):
-        self.min_price + price*(self.max_price-self.min_price)
+        return self.min_price + price*(self.max_price-self.min_price)
 
     def price_equation(self):
         '''

@@ -18,7 +18,8 @@ class bar_server:
 
         @app.route('/list')
         def list_products():
-            return jsonify({i: str(p) for i, p in enumerate(self.products)})
+            return jsonify({i: {"name": p.name,"price": p.price} \
+                for i, p in enumerate(self.products)})
 
         @app.route('/price/<product>')
         def consult_price(product):
@@ -41,7 +42,7 @@ class bar_server:
         raise NotImplemented
 
     def decrease_price_all(self):
-        logging.info("Increasing prices...")
+        logging.info("Decreasing prices...")
         for p in self.products:
             p.decrease_price()
 
