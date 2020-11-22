@@ -27,7 +27,7 @@ class product:
         '''
         Returns X-value (-1 to 1) from current price
         '''
-        return (1-2*self.normalize_price(self.price))**(1/3)
+        return 1-2*((self.normalize_price(self.price))**(1/3))
 
     def increase_price(self):
         '''
