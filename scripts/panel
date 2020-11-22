@@ -8,13 +8,13 @@ URI = "http://localhost:5555"
 term = Terminal()
 
 def print_in_pos(row, col, prod):
-    print(term.move_xy(20*col, 2*row) + prod["name"])
-    print(term.move_xy(20*col+15, 2*row) + str(prod["price"]))
+    print(term.move_xy(30*col, 2*row) + prod["name"])
+    print(term.move_xy(30*col+20, 2*row) + "$" + str(round(prod["price"],2)))
 
 def panel():
     height = term.height
     width = term.width
-    cols = width // 20
+    cols = width // 30
     rows = height // 2
     got = requests.get(URI+"/list").json()
     if (len(got) > rows*cols):
@@ -22,14 +22,12 @@ def panel():
     while True:
         print(term.home + term.clear)
         got = requests.get(URI+"/list").json()
-        print(term.home + term.clear)
-
         row_ctl = 0
         col_ctl = 0
         for item in got:
             print_in_pos(row_ctl, col_ctl, got[item])
             row_ctl += 1
-            if(row_ctl > rows):
+            if(row_ctl >= rows):
                 row_ctl = 0
                 col_ctl += 1
 
